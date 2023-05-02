@@ -12,7 +12,8 @@ export const authOptions: AuthOptions = {
     providers: [
         GithubProvider({
             clientId: process.env.GITHUB_ID as string,
-            clientSecret: process.env.GITHUB_SECRET as string,
+            clientSecret: process.env.GITHUB_SECRET as string
+            // If you see OAuthAccountNotLinked it means you have already signed in with a different provider that is associated with the same email address.
         }),
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID as string,
