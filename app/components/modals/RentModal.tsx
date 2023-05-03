@@ -7,6 +7,8 @@ import { categories } from "../navbar/Categories";
 import Heading from "../Heading";
 import CategoryInput from "../inputs/CategoryInput";
 import { FieldValues, useForm } from "react-hook-form";
+import CountrySelect from "../CountrySelect";
+import dynamic from "next/dynamic";
 
 enum STEPS {
     CATEGORY = 0,
@@ -43,8 +45,17 @@ const RentModal = () => {
     //cuz we have our cutsom Category input not normal input so we do a watcher
 
     const category = watch('category');
-    console.log("Cateeeeeeeee", category);
-    const customSetValue = (id: string, value: any) => {
+    const location = watch('location');
+    // console.log("category", category);
+    console.log("location", location);
+
+    //z
+    const Map = useMemo(() => dynamic(() => import('../Map'), {
+        ssr: false
+    }), [location]);
+
+
+    const setCustomValue = (id: string, value: any) => {
         setValue(id, value, {
             shouldValidate: true,
             shouldDirty: true,
@@ -85,7 +96,7 @@ const RentModal = () => {
                 {categories.map((item) => (
                     <div key={item.label} className="col-span-1">
                         <CategoryInput
-                            onClick={(category) => customSetValue('category', category)}
+                            onClick={(category) => setCustomValue('category', category)}
                             selected={category === item.label}
                             label={item.label}
                             icon={item.icon}
@@ -95,13 +106,37 @@ const RentModal = () => {
             </div>
         </div>
     )
+    switch (step) {
+
+        case STEPS.LOCATION: {
+            bodyContent = (
+                <div className="flex flex-col gap-8">
+                    <Heading
+                        title="Where is your place located?"
+                        subtitle="Help guests find you!"
+                    />
+                    <CountrySelect
+                        value={location}
+                        onChange={(value) => { setCustomValue('location', value) }}
+                    />
+                    <Map center={location?.latlng} />
+                </div>
+            );
+            break;
+        }
+        default: {
+            //statements; 
+            break;
+        }
+    }
+
     return (
         <Modal
             disabled={isLoading}
             isOpen={rentModal.isOpen}
             title="Airbnb your home!"
             actionLabel={actionLabel}
-            onSubmit={() => { }}
+            onSubmit={onNext}
             secondaryActionLabel={secondaryActionLabel}
             secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
             onClose={rentModal.onClose}
