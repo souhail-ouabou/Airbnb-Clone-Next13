@@ -1,10 +1,17 @@
 'use client'
 
-import useRegisterModal from '@/app/hooks/useRegisterModal'
+import useLoginModal from "@/app/hooks/useLoginModal";
+import useRegisterModal from "@/app/hooks/useRegisterModal";
+
 import { signIn } from 'next-auth/react'
 import axios from 'axios'
-import { useState } from 'react'
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { useState, useCallback } from 'react'
+import {
+    FieldValues,
+    SubmitHandler,
+    useForm
+} from 'react-hook-form'
+
 import { toast } from "react-hot-toast"
 import { AiFillGithub } from 'react-icons/ai'
 import { FcGoogle } from 'react-icons/fc'
@@ -15,6 +22,7 @@ import Modal from './Modal'
 
 const RegisterModal = () => {
     const registerModal = useRegisterModal();
+    const loginModal = useLoginModal();
     const [isLoading, setIsLoading] = useState(false);
 
     const form = useForm<FieldValues>({
@@ -24,7 +32,7 @@ const RegisterModal = () => {
             password: ''
         }
     })
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = form
+    const { register, handleSubmit, formState: { errors } } = form
 
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -42,7 +50,10 @@ const RegisterModal = () => {
                 setIsLoading(false);
             })
     }
-
+    const onToggle = useCallback(() => {
+        registerModal.onClose();
+        loginModal.onOpen();
+    }, [registerModal, loginModal])
     const bodyContent = (
         <div className='flex flex-col gap-4'>
             <Heading
@@ -94,7 +105,7 @@ const RegisterModal = () => {
             <div
                 className="text-neutral-500  text-center mt-4 font-light">
                 <p>Already have an account?
-                    <span className="text-neutral-800 cursor-pointer hover:underline">
+                    <span onClick={onToggle} className="text-neutral-800 cursor-pointer hover:underline">
                         Log in
                     </span>
                 </p>
