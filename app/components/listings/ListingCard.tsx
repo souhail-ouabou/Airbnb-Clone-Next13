@@ -15,7 +15,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
 }) => {
     const router = useRouter();
     const { getByValue } = useCountries();
-
+    console.log("currentUser Listing card ",currentUser);
+    
     const location = getByValue(data.locationValue);
     return (
         <div
@@ -25,7 +26,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
                 <div className="aspect-square w-full relative overflow-hidden rounded-xl">
                     <Image fill src={data.imageSrc} alt="listing" className="object-cover w-full h-full group-hover:scale-110 transition" />
                     <div className="absolute top-3 right-3">
-                        <HeartButton />
+                        <HeartButton
+                            listingId={data.id}
+                            currentUser={currentUser}
+                        />
                     </div>
                 </div>
                 <div className="font-semibold text-lg">
