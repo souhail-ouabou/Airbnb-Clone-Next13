@@ -1,5 +1,7 @@
 import getListingById from "@/app/actions/getListingById";
 import EmptyState from "@/app/components/EmptyState";
+import ListingClient from "./ListingClient";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 
 interface IParams {
@@ -8,13 +10,20 @@ interface IParams {
 
 const ListingPage = async ({ params }: { params: IParams }) => {
     const listing = await getListingById(params);
+    const currentUser = await getCurrentUser();
     if (!listing) {
-        return (<><EmptyState /></>)
+        return (
+            <>
+                <EmptyState />
+            </>)
     }
     return (
-        <div>
-            {listing.title}
-        </div>);
+        <>
+            <ListingClient
+                listing={listing}
+                currentUser={currentUser}
+            />
+        </>);
 }
 
 export default ListingPage;
