@@ -10,8 +10,6 @@ interface IUseFavorite {
     currentUser?: User | null
 }
 
-
-
 const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
     const loginModal = useLoginModal();
     const router = useRouter();

@@ -10,7 +10,7 @@ export default async function Home() {
   const listings = await getListing();
   const currentUser = await getCurrentUser();
 
-  console.log("currentUser : " +currentUser);
+  console.log("currentUser : " ,currentUser);
   
   if (listings.length === 0) {
     return (
