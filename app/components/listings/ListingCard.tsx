@@ -15,7 +15,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
 }) => {
     const router = useRouter();
     const { getByValue } = useCountries();
-    console.log("currentUser Listing card ",currentUser);
+  //  console.log("currentUser Listing card ",currentUser);
     
     const location = getByValue(data.locationValue);
     return (
