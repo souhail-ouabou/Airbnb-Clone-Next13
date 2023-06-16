@@ -13,15 +13,15 @@ export default async function getReservations(
         const { listingId, userId, authorId } = params;
 
         const query: any = {};
-
+        //information of listing reservatrion
         if (listingId) {
             query.listingId = listingId;
         };
-
+        //reservations from who reserved //trips
         if (userId) {
             query.userId = userId;
         }
-
+        //reservations that other people have made on our listings
         if (authorId) {
             query.listing = { userId: authorId };
         }
