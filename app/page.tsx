@@ -1,6 +1,6 @@
 import Container from "./components/Container";
 import ListingCard from "@/app/components/listings/ListingCard";
-import getListing from "./hooks/getListings";
+import getListing from "./actions/getListings";
 import EmptyState from "./components/EmptyState";
 import getCurrentUser from "./actions/getCurrentUser";
 
